@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect ,useRef} from 'react'
+import {ProductList,Header} from './components'
+import {useDispatch,useSelector} from 'react-redux'
+import { fetchUser } from './redux/cart'
 
+//const user = useContext(userContext)
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const counterRef=useRef(1)
+  const {userDetails}=useSelector((state)=>state.cart)
+
+  const dispatch=useDispatch()
+  useEffect(()=>{
+    dispatch(fetchUser(counterRef.current))
+  },[])
+
+const addMoreUser=()=>{
+  dispatch(fetchUser(++counterRef.current))
+
 }
 
-export default App;
+  return (
+    <>
+    <Header/>
+    {/* <button onClick={addMoreUser}>Add More Users</button>
+    <h5>{JSON.stringify(userDetails)}</h5> */}
+    <ProductList/>
+    </>
+  )
+}
+
+export default App
